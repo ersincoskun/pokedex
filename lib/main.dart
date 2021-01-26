@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pokemon_list.dart';
+import 'package:pokedex/characters_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,12 +13,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      title: "pokedex",
+      title: "rick and morty",
       home: Scaffold(
         appBar: AppBar(
           title: Text("Pokedex"),
         ),
-        body: PokemonList(),
+        body: CharactersList(),
       ),
     );
   }

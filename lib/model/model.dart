@@ -1,197 +1,157 @@
 // To parse this JSON data, do
 //
-//     final pokedex = pokedexFromJson(jsonString);
+//     final rickAndMorty = rickAndMortyFromJson(jsonString);
 
 import 'dart:convert';
 
-Pokedex pokedexFromJson(String str) => Pokedex.fromJson(json.decode(str));
+RickAndMorty rickAndMortyFromJson(String str) =>
+    RickAndMorty.fromJson(json.decode(str));
 
-String pokedexToJson(Pokedex data) => json.encode(data.toJson());
+String rickAndMortyToJson(RickAndMorty data) => json.encode(data.toJson());
 
-class Pokedex {
-  Pokedex({
-    this.pokemon,
+class RickAndMorty {
+  RickAndMorty({
+    this.info,
+    this.results,
   });
 
-  List<Pokemon> pokemon;
+  Info info;
+  List<Result> results;
 
-  factory Pokedex.fromJson(Map<String, dynamic> json) => Pokedex(
-        pokemon:
-            List<Pokemon>.from(json["pokemon"].map((x) => Pokemon.fromJson(x))),
+  factory RickAndMorty.fromJson(Map<String, dynamic> json) => RickAndMorty(
+        info: Info.fromJson(json["info"]),
+        results:
+            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "pokemon": List<dynamic>.from(pokemon.map((x) => x.toJson())),
+        "info": info.toJson(),
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
       };
 }
 
-class Pokemon {
-  Pokemon({
+class Info {
+  Info({
+    this.count,
+    this.pages,
+    this.next,
+    this.prev,
+  });
+
+  int count;
+  int pages;
+  String next;
+  dynamic prev;
+
+  factory Info.fromJson(Map<String, dynamic> json) => Info(
+        count: json["count"],
+        pages: json["pages"],
+        next: json["next"],
+        prev: json["prev"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "count": count,
+        "pages": pages,
+        "next": next,
+        "prev": prev,
+      };
+}
+
+class Result {
+  Result({
     this.id,
-    this.num,
     this.name,
-    this.img,
+    this.status,
+    this.species,
     this.type,
-    this.height,
-    this.weight,
-    this.candy,
-    this.candyCount,
-    this.egg,
-    this.spawnChance,
-    this.avgSpawns,
-    this.spawnTime,
-    this.multipliers,
-    this.weaknesses,
-    this.nextEvolution,
-    this.prevEvolution,
+    this.gender,
+    this.origin,
+    this.location,
+    this.image,
+    this.episode,
+    this.url,
+    this.created,
   });
 
   int id;
-  String num;
   String name;
-  String img;
-  List<Type> type;
-  String height;
-  String weight;
-  String candy;
-  int candyCount;
-  Egg egg;
-  double spawnChance;
-  double avgSpawns;
-  String spawnTime;
-  List<double> multipliers;
-  List<Type> weaknesses;
-  List<Evolution> nextEvolution;
-  List<Evolution> prevEvolution;
+  Status status;
+  Species species;
+  String type;
+  Gender gender;
+  Location origin;
+  Location location;
+  String image;
+  List<String> episode;
+  String url;
+  DateTime created;
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
-        num: json["num"],
         name: json["name"],
-        img: json["img"],
-        type: List<Type>.from(json["type"].map((x) => typeValues.map[x])),
-        height: json["height"],
-        weight: json["weight"],
-        candy: json["candy"],
-        candyCount: json["candy_count"] == null ? null : json["candy_count"],
-        egg: eggValues.map[json["egg"]],
-        spawnChance: json["spawn_chance"].toDouble(),
-        avgSpawns: json["avg_spawns"].toDouble(),
-        spawnTime: json["spawn_time"],
-        multipliers: json["multipliers"] == null
-            ? null
-            : List<double>.from(json["multipliers"].map((x) => x.toDouble())),
-        weaknesses:
-            List<Type>.from(json["weaknesses"].map((x) => typeValues.map[x])),
-        nextEvolution: json["next_evolution"] == null
-            ? null
-            : List<Evolution>.from(
-                json["next_evolution"].map((x) => Evolution.fromJson(x))),
-        prevEvolution: json["prev_evolution"] == null
-            ? null
-            : List<Evolution>.from(
-                json["prev_evolution"].map((x) => Evolution.fromJson(x))),
+        status: statusValues.map[json["status"]],
+        species: speciesValues.map[json["species"]],
+        type: json["type"],
+        gender: genderValues.map[json["gender"]],
+        origin: Location.fromJson(json["origin"]),
+        location: Location.fromJson(json["location"]),
+        image: json["image"],
+        episode: List<String>.from(json["episode"].map((x) => x)),
+        url: json["url"],
+        created: DateTime.parse(json["created"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "num": num,
         "name": name,
-        "img": img,
-        "type": List<dynamic>.from(type.map((x) => typeValues.reverse[x])),
-        "height": height,
-        "weight": weight,
-        "candy": candy,
-        "candy_count": candyCount == null ? null : candyCount,
-        "egg": eggValues.reverse[egg],
-        "spawn_chance": spawnChance,
-        "avg_spawns": avgSpawns,
-        "spawn_time": spawnTime,
-        "multipliers": multipliers == null
-            ? null
-            : List<dynamic>.from(multipliers.map((x) => x)),
-        "weaknesses":
-            List<dynamic>.from(weaknesses.map((x) => typeValues.reverse[x])),
-        "next_evolution": nextEvolution == null
-            ? null
-            : List<dynamic>.from(nextEvolution.map((x) => x.toJson())),
-        "prev_evolution": prevEvolution == null
-            ? null
-            : List<dynamic>.from(prevEvolution.map((x) => x.toJson())),
+        "status": statusValues.reverse[status],
+        "species": speciesValues.reverse[species],
+        "type": type,
+        "gender": genderValues.reverse[gender],
+        "origin": origin.toJson(),
+        "location": location.toJson(),
+        "image": image,
+        "episode": List<dynamic>.from(episode.map((x) => x)),
+        "url": url,
+        "created": created.toIso8601String(),
       };
 }
 
-enum Egg { THE_2_KM, NOT_IN_EGGS, THE_5_KM, THE_10_KM, OMANYTE_CANDY }
+enum Gender { MALE, FEMALE, UNKNOWN }
 
-final eggValues = EnumValues({
-  "Not in Eggs": Egg.NOT_IN_EGGS,
-  "Omanyte Candy": Egg.OMANYTE_CANDY,
-  "10 km": Egg.THE_10_KM,
-  "2 km": Egg.THE_2_KM,
-  "5 km": Egg.THE_5_KM
-});
+final genderValues = EnumValues(
+    {"Female": Gender.FEMALE, "Male": Gender.MALE, "unknown": Gender.UNKNOWN});
 
-class Evolution {
-  Evolution({
-    this.num,
+class Location {
+  Location({
     this.name,
+    this.url,
   });
 
-  String num;
   String name;
+  String url;
 
-  factory Evolution.fromJson(Map<String, dynamic> json) => Evolution(
-        num: json["num"],
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
         name: json["name"],
+        url: json["url"],
       );
 
   Map<String, dynamic> toJson() => {
-        "num": num,
         "name": name,
+        "url": url,
       };
 }
 
-enum Type {
-  FIRE,
-  ICE,
-  FLYING,
-  PSYCHIC,
-  WATER,
-  GROUND,
-  ROCK,
-  ELECTRIC,
-  GRASS,
-  FIGHTING,
-  POISON,
-  BUG,
-  FAIRY,
-  GHOST,
-  DARK,
-  STEEL,
-  DRAGON,
-  NORMAL
-}
+enum Species { HUMAN, ALIEN }
 
-final typeValues = EnumValues({
-  "Bug": Type.BUG,
-  "Dark": Type.DARK,
-  "Dragon": Type.DRAGON,
-  "Electric": Type.ELECTRIC,
-  "Fairy": Type.FAIRY,
-  "Fighting": Type.FIGHTING,
-  "Fire": Type.FIRE,
-  "Flying": Type.FLYING,
-  "Ghost": Type.GHOST,
-  "Grass": Type.GRASS,
-  "Ground": Type.GROUND,
-  "Ice": Type.ICE,
-  "Normal": Type.NORMAL,
-  "Poison": Type.POISON,
-  "Psychic": Type.PSYCHIC,
-  "Rock": Type.ROCK,
-  "Steel": Type.STEEL,
-  "Water": Type.WATER
-});
+final speciesValues =
+    EnumValues({"Alien": Species.ALIEN, "Human": Species.HUMAN});
+
+enum Status { ALIVE, UNKNOWN, DEAD }
+
+final statusValues = EnumValues(
+    {"Alive": Status.ALIVE, "Dead": Status.DEAD, "unknown": Status.UNKNOWN});
 
 class EnumValues<T> {
   Map<String, T> map;
