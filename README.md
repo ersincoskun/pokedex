@@ -1,4 +1,4 @@
-# Rick and Morty Characters
+# pokedex
 
 A new Flutter project.
 
