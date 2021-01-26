@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: "rick and morty",
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Pokedex"),
+          title: Text("Rick and Morty"),
         ),
         body: CharactersList(),
       ),
